@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar">
+        <button onclick="createNewChat()">+ New Chat</button>
+        <div id="chatList"></div>
+    </div>
+    <div class="chat-container">
+
+        <div class="chat-header">
+            <h1>AI Chatbot </h1>
+        </div>
+
+        <div class="chat-box" id="chatBox"></div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+            <button id="sendBtn">Send</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let currentChatId = null;
+const chatBox = document.getElementById('chatBox');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+const chatList = document.getElementById('chatList');
+
+function addMessage(message, isUser) {
+    const div = document.createElement('div');
+    div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    div.innerHTML = `<div class="message-content">${message}</div>`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function createNewChat() {
+    const res = await fetch("/new_chat");
+    const data = await res.json();
+    currentChatId = data.chat_id;
+    chatBox.innerHTML = "";
+    addChatToSidebar(currentChatId);
+}
+
+function addChatToSidebar(chatId) {
+    const btn = document.createElement("button");
+    btn.textContent = "Chat " + chatId.substring(0, 6);
+    btn.onclick = () => loadChat(chatId);
+    chatList.appendChild(btn);
+}
+
+async function loadChat(chatId) {
+    currentChatId = chatId;
+    const res = await fetch(`/history/${chatId}`);
+    const messages = await res.json();
+
+    chatBox.innerHTML = "";
+    messages.forEach(msg => {
+        addMessage(msg.text, msg.role === "user");
+    });
+}
+
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message || !currentChatId) return;
+
+    addMessage(message, true);
+    userInput.value = '';
+
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: message, chat_id: currentChatId })
+    });
+
+    const data = await res.json();
+    addMessage(data.reply, false);
+}
+
+sendBtn.addEventListener("click", sendMessage);
+userInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+});
+
+createNewChat();
+</script>
+
+</body>
+</html>
