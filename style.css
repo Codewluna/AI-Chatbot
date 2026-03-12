@@ -1,155 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #ffd6e8, #fbc2eb, #a6c1ee);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f8e8ff;
 }
 
+/* layout */
 
-.app-layout {
+.container {
     display: flex;
-    width: 900px;
-    height: 550px;
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    height: 100vh;
 }
+
+/* sidebar */
 
 .sidebar {
-    width: 220px;
-    background: linear-gradient(to bottom, #ffe4f1, #ffd1e8);
+    width: 230px;
+    background: #e6c9ff;
     padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #6a00a8;
 }
 
 .sidebar button {
+    width: 100%;
+    margin: 6px 0;
     padding: 10px;
     border: none;
-    border-radius: 12px;
-    background: #ff7eb3;
+    border-radius: 10px;
+    background: #d291ff;
     color: white;
-    font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .sidebar button:hover {
-    background: #ff5f9e;
-    transform: translateY(-2px);
+    background: #b96cff;
 }
 
-.chat-container {
+
+/* chat */
+
+.chat {
     flex: 1;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(12px);
     display: flex;
     flex-direction: column;
+    background: #fff0fb;
 }
 
-.chat-header {
-    background: linear-gradient(to right, #ff9a9e, #fad0c4);
-    color: white;
-    padding: 18px;
-    text-align: center;
-}
 
-.chat-header h1 {
-    font-size: 20px;
-}
+/* messages */
 
-.chat-header p {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.chat-box {
+.messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
 }
 
-.message {
-    padding: 10px 15px;
-    margin-bottom: 12px;
-    border-radius: 18px;
-    max-width: 75%;
-    font-size: 14px;
-    animation: fadeIn 0.3s ease;
+
+/* bubbles */
+
+.messages p {
+    background: #ffd6f6;
+    padding: 10px;
+    border-radius: 12px;
+    width: fit-content;
+    margin: 5px 0;
 }
 
-.user-message {
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    color: white;
-    margin-left: auto;
-    border-bottom-right-radius: 5px;
-}
 
-.bot-message {
-    background: white;
-    color: #444;
-    border-bottom-left-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
+/* input */
 
-.input-area {
+.inputBox {
     display: flex;
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #eee;
+    padding: 10px;
+    background: #ffe4f5;
 }
 
-#userInput {
+.inputBox input {
     flex: 1;
-    padding: 12px 15px;
-    border-radius: 25px;
-    border: 2px solid #fbc2eb;
-    outline: none;
-}
-
-#userInput:focus {
-    border-color: #ff7eb3;
-}
-
-#sendBtn {
-    margin-left: 10px;
-    padding: 12px 20px;
-    border-radius: 25px;
-    border: none;
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#sendBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255,118,150,0.4);
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.chat-box::-webkit-scrollbar,
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-.chat-box::-webkit-scrollbar-thumb,
-.sidebar::-webkit-scrollbar-thumb {
-    background: #ffb6c1;
+    padding: 10px;
     border-radius: 10px;
+    border: none;
+}
+
+.inputBox button {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #ff7ac8;
+    color: white;
+    cursor: pointer;
+}
+
+.inputBox button:hover {
+    background: #ff4fb2;
 }
