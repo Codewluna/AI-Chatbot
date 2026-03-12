@@ -1,48 +1,41 @@
-{
-    "c1ce35d1-ede5-4c84-ad28-7ae4705cc7f0": [
-        {
-            "role": "user",
-            "text": "hello"
+function sendMessage() {
+
+    let input = document.getElementById("input").value
+
+    if (input.trim() === "") return
+
+    let box = document.getElementById("messages")
+
+    // user bubble
+    box.innerHTML += `
+        <div class="msg user">
+            ${input}
+        </div>
+    `
+    fetch("/chat", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
         },
-        {
-            "role": "bot",
-            "text": "Hello! Ask me something interesting."
-        },
-        {
-            "role": "user",
-            "text": "what is 2+2"
-        },
-        {
-            "role": "bot",
-            "text": "The answer is 4."
-        }
-    ],
-    "28d57ee2-23ab-4800-ad66-d2ec80d56f80": [
-        {
-            "role": "user",
-            "text": "hello"
-        },
-        {
-            "role": "bot",
-            "text": "Hello! Ask me something interesting."
-        }
-    ],
-    "0768dc33-2cec-49b3-ae06-f9493be52be4": [
-        {
-            "role": "user",
-            "text": "hi whats up?"
-        },
-        {
-            "role": "bot",
-            "text": "Hello! Ask me something interesting."
-        },
-        {
-            "role": "user",
-            "text": "what is the result of 667*458"
-        },
-        {
-            "role": "bot",
-            "text": "The answer is 305486."
-        }
-    ]
+
+        body: JSON.stringify({
+            message: input
+        })
+
+    })
+    .then(res => res.json())
+
+    .then(data => {
+
+        box.innerHTML += `
+            <div class="msg bot">
+                ${data.reply}
+            </div>
+        `
+        box.scrollTop = box.scrollHeight
+    })
+    document.getElementById("input").value = ""
+
 }
